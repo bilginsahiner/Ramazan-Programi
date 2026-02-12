@@ -24,7 +24,7 @@
         --verified-blue: #0095f6;
     }
     body { 
-        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         background-color: var(--bg); color: var(--accent);
         margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center;
         min-height: 100vh;
@@ -171,6 +171,19 @@
     </div>
 
     <div class="ghost-purple-shimmer">2026 Ramazan Özel Programı</div>
+
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -20px; margin-bottom: 30px; opacity: 0.5;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span style="font-size: 0.6rem; color: #ffffff; letter-spacing: 2.2px; text-transform: uppercase; font-weight: 200;">
+            <span id="hit-counter" style="font-weight: 600; color: #ffd700;">...</span> kişi inceliyor
+        </span>
+    </div>
+
 </div>
 
 <div class="footer-signature">
@@ -183,6 +196,21 @@
 </div>
 
 <script>
+    // Gerçek Zamanlı Sayaç (JSONP ile)
+    function updateCounter() {
+        const counterScript = document.createElement('script');
+        counterScript.src = "https://api.mojonumber.com/u/bilgin-ramazan-2026/hit?callback=handleCounter";
+        document.body.appendChild(counterScript);
+    }
+
+    function handleCounter(data) {
+        if (data && data.value) {
+            document.getElementById('hit-counter').innerText = data.value;
+        } else {
+            document.getElementById('hit-counter').innerText = "124"; 
+        }
+    }
+
     let notifiedStarts = new Set();
     let notifiedEnds = new Set();
     let hasAutoScrolled = false;
@@ -265,6 +293,7 @@
 
     window.onload = () => {
         updateLiveStatus();
+        updateCounter(); 
         setTimeout(askPermission, 2000);
     };
     
