@@ -23,6 +23,7 @@
         --break-text: #555555;
         --verified-blue: #0095f6;
         --live-green: #2ecc71;
+        --drawer-width: 250px;
     }
     body { 
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -30,6 +31,56 @@
         margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center;
         min-height: 100vh;
     }
+
+    /* --- MENU STYLES --- */
+    .menu-btn {
+        position: fixed; top: 20px; left: 20px; z-index: 1001;
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: 8px; padding: 8px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+    }
+    
+    .side-drawer {
+        position: fixed; top: 0; left: calc(-1 * var(--drawer-width));
+        width: var(--drawer-width); height: 100%;
+        background: var(--card); border-right: 1px solid var(--border);
+        z-index: 1002; transition: 0.3s ease-in-out;
+        padding: 60px 20px; box-sizing: border-box;
+    }
+    
+    .side-drawer.open { left: 0; }
+    
+    .drawer-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7); z-index: 1001;
+        display: none; backdrop-filter: blur(4px);
+    }
+    
+    .drawer-overlay.show { display: block; }
+    
+    .menu-item {
+        display: flex; align-items: center; gap: 12px;
+        padding: 15px; border-radius: 10px;
+        color: var(--accent); text-decoration: none;
+        font-size: 0.9rem; margin-bottom: 10px;
+        transition: background 0.2s; border: 1px solid transparent;
+    }
+    
+    .menu-item:hover { background: var(--highlight); border-color: var(--border); }
+    .menu-item svg { width: 20px; height: 20px; stroke: var(--accent); }
+
+    /* RENK TAKASI: Ramazan Butonu Özel, Ders Butonu Sade */
+    .ramazan-link-special {
+        background: linear-gradient(45deg, #1a1a1a, #2c1e4a);
+        border: 1px solid #4b307d !important;
+    }
+
+    .ders-link-plain {
+        background: transparent;
+        border: 1px solid transparent;
+    }
+
+    /* --- EXISTING STYLES --- */
     .container { width: 100%; max-width: 400px; box-sizing: border-box; padding-bottom: 80px; }
     header { padding: 25px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
     h1 { font-size: 0.9rem; font-weight: 300; letter-spacing: 2px; margin: 0; text-transform: uppercase; text-align: center; line-height: 1.4; }
@@ -89,14 +140,9 @@
     .room { color: var(--secondary); font-size: 0.8rem; margin-left: 4px; }
 
     .live-status-box {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: -10px;
-        margin-bottom: 30px;
-        padding: 6px 12px;
-        border: 1px solid var(--border);
-        border-radius: 8px;
+        display: inline-flex; align-items: center; gap: 8px;
+        margin-top: -10px; margin-bottom: 30px; padding: 6px 12px;
+        border: 1px solid var(--border); border-radius: 8px;
         background: rgba(255, 255, 255, 0.03);
     }
 
@@ -115,12 +161,8 @@
     }
 
     .ghost-purple-shimmer {
-        text-align: center;
-        font-size: 0.65rem;
-        font-weight: 500;
-        letter-spacing: 2px;
-        padding: 40px 20px;
-        text-transform: uppercase;
+        text-align: center; font-size: 0.65rem; font-weight: 500; letter-spacing: 2px;
+        padding: 40px 20px; text-transform: uppercase;
         background: linear-gradient(120deg, rgba(255,255,255,1) 40%, rgba(138,43,226,0.5) 50%, rgba(255,255,255,1) 60%);
         background-size: 200% auto;
         -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
@@ -134,6 +176,29 @@
 </style>
 </head>
 <body>
+
+<div class="menu-btn" onclick="toggleMenu()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+</div>
+
+<div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<div class="side-drawer" id="drawer">
+    <a href="https://bilginsahiner.github.io/Ders-Programi" class="menu-item ders-link-plain">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Ders Programı
+    </a>
+    <a href="#" class="menu-item ramazan-link-special" onclick="toggleMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+        Ramazan Programı
+    </a>
+</div>
 
 <div class="container">
     <header>
@@ -196,7 +261,6 @@
             </span>
         </div>
     </div>
-
 </div>
 
 <div class="footer-signature">
@@ -209,6 +273,13 @@
 </div>
 
 <script>
+    function toggleMenu() {
+        const drawer = document.getElementById('drawer');
+        const overlay = document.getElementById('overlay');
+        drawer.classList.toggle('open');
+        overlay.classList.toggle('show');
+    }
+
     let notifiedStarts = new Set();
     let notifiedEnds = new Set();
     let hasAutoScrolled = false;
