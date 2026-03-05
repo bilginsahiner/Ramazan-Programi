@@ -24,6 +24,9 @@
         --verified-blue: #0095f6;
         --live-green: #2ecc71;
         --drawer-width: 260px;
+        /* Tablolar için yeni renk dokunuşu */
+        --table-glow: rgba(98, 70, 234, 0.15);
+        --table-border-soft: rgba(98, 70, 234, 0.4);
     }
     body { 
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -46,7 +49,6 @@
         background: var(--card); border-right: 1px solid var(--border);
         z-index: 1002; transition: 0.3s ease-in-out;
         padding: 60px 20px; box-sizing: border-box;
-        /* KAYDIRMA ÖZELLİĞİ BURAYA EKLENDİ */
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
@@ -95,10 +97,17 @@
 
     h1 { font-size: 0.8rem; font-weight: 300; letter-spacing: 2px; margin: 0; text-transform: uppercase; line-height: 1.4; text-align: center; }
     
-    .day-block { background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+    /* MODERNIZE EDİLMİŞ TABLO (DAY-BLOCK) TASARIMI */
+    .day-block { 
+        background: linear-gradient(145deg, #121212 0%, #0a0a0a 100%); 
+        border: 1px solid var(--table-border-soft); 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5), inset 0 0 10px var(--table-glow);
+        border-radius: 12px; margin-bottom: 15px; overflow: hidden; 
+    }
+
     .day-header { 
-        background: var(--highlight); padding: 12px 15px; font-size: 0.75rem; font-weight: 700; 
-        letter-spacing: 1px; border-bottom: 1px solid var(--border); color: var(--accent);
+        background: rgba(98, 70, 234, 0.1); padding: 12px 15px; font-size: 0.75rem; font-weight: 700; 
+        letter-spacing: 1px; border-bottom: 1px solid var(--table-border-soft); color: var(--accent);
         display: flex; align-items: center;
     }
     
@@ -143,12 +152,12 @@
     }
 
     .session { padding: 12px 15px; }
-    .break { padding: 8px 15px; background: #080808; border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; font-size: 0.65rem; color: var(--break-text); text-transform: uppercase; letter-spacing: 1px; }
+    .break { padding: 8px 15px; background: rgba(255, 255, 255, 0.02); border-top: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.65rem; color: var(--break-text); text-transform: uppercase; letter-spacing: 1px; }
     .time { font-size: 0.7rem; color: var(--secondary); font-family: monospace; display: block; margin-bottom: 2px; }
     .name { font-size: 0.85rem; font-weight: 400; color: #e0e0e0; }
     .room { color: var(--secondary); font-size: 0.8rem; margin-left: 4px; }
 
-    /* --- YENİ BUTON TASARIMI --- */
+    /* --- FOOTER SECTION (Ortalandı) --- */
     .footer-section {
         display: flex; justify-content: center; gap: 8px;
         padding-top: 10px; width: 100%;
