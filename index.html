@@ -24,10 +24,16 @@
         --verified-blue: #0095f6;
         --live-green: #2ecc71;
         --drawer-width: 260px;
-        /* Tablolar için yeni renk dokunuşu */
         --table-glow: rgba(98, 70, 234, 0.15);
         --table-border-soft: rgba(98, 70, 234, 0.4);
     }
+    
+    /* Tıklama sonrası oluşan mavi efektleri kaldırmak için global ayar */
+    * {
+        -webkit-tap-highlight-color: transparent;
+        outline: none !important;
+    }
+
     body { 
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         background-color: var(--bg); color: var(--accent);
@@ -97,7 +103,6 @@
 
     h1 { font-size: 0.8rem; font-weight: 300; letter-spacing: 2px; margin: 0; text-transform: uppercase; line-height: 1.4; text-align: center; }
     
-    /* MODERNIZE EDİLMİŞ TABLO (DAY-BLOCK) TASARIMI */
     .day-block { 
         background: linear-gradient(145deg, #121212 0%, #0a0a0a 100%); 
         border: 1px solid var(--table-border-soft); 
@@ -157,7 +162,7 @@
     .name { font-size: 0.85rem; font-weight: 400; color: #e0e0e0; }
     .room { color: var(--secondary); font-size: 0.8rem; margin-left: 4px; }
 
-    /* --- FOOTER SECTION (Ortalandı) --- */
+    /* --- FOOTER SECTION --- */
     .footer-section {
         display: flex; justify-content: center; gap: 8px;
         padding-top: 10px; width: 100%;
@@ -299,8 +304,6 @@
         </div>
     </div>
 </header>
-
-
 
 <div class="container">
     <div class="day-block" id="day-1">
